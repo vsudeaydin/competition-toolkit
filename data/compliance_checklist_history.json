@@ -1,0 +1,154 @@
+[
+  {
+    "module": "compliance_checklist",
+    "inputs": {
+      "responses": {
+        "pricing_practices": {
+          "question": "Do you engage in price fixing or coordinate prices with competitors?",
+          "category": "Pricing",
+          "response": "Sometimes",
+          "weight": 3
+        },
+        "market_sharing": {
+          "question": "Do you agree with competitors to divide markets or customers?",
+          "category": "Market Division",
+          "response": "Yes",
+          "weight": 3
+        },
+        "bid_rigging": {
+          "question": "Do you coordinate bidding with competitors in tenders?",
+          "category": "Bid Rigging",
+          "response": "Sometimes",
+          "weight": 3
+        },
+        "information_exchange": {
+          "question": "Do you exchange competitively sensitive information with competitors?",
+          "category": "Information Exchange",
+          "response": "No",
+          "weight": 2
+        },
+        "exclusive_dealing": {
+          "question": "Do you require customers to purchase exclusively from you?",
+          "category": "Exclusive Dealing",
+          "response": "Yes",
+          "weight": 2
+        },
+        "tying_bundling": {
+          "question": "Do you tie the sale of one product to another?",
+          "category": "Tying & Bundling",
+          "response": "Sometimes",
+          "weight": 2
+        },
+        "predatory_pricing": {
+          "question": "Do you set prices below cost to eliminate competitors?",
+          "category": "Predatory Pricing",
+          "response": "No",
+          "weight": 2
+        },
+        "refusal_to_deal": {
+          "question": "Do you refuse to deal with certain customers without objective justification?",
+          "category": "Refusal to Deal",
+          "response": "No",
+          "weight": 1
+        },
+        "discriminatory_pricing": {
+          "question": "Do you charge different prices to similar customers without justification?",
+          "category": "Price Discrimination",
+          "response": "No",
+          "weight": 1
+        },
+        "resale_price_maintenance": {
+          "question": "Do you control the resale prices of your products?",
+          "category": "Resale Price Maintenance",
+          "response": "No",
+          "weight": 2
+        }
+      },
+      "assessment_date": "2025-08-07T23:26:01.864160"
+    },
+    "result": {
+      "Total Risk Score": 9.0,
+      "Risk Level": "medium",
+      "Risk Description": "Medium risk - Review practices",
+      "Assessment Date": "2025-08-07T23:26:01.855711",
+      "Questions Answered": 10
+    },
+    "timestamp": "2025-08-07T23:26:01.864220"
+  },
+  {
+    "module": "compliance_checklist",
+    "inputs": {
+      "responses": {
+        "pricing_practices": {
+          "question": "Do you engage in price fixing or coordinate prices with competitors?",
+          "category": "Pricing",
+          "response": "No",
+          "weight": 3
+        },
+        "market_sharing": {
+          "question": "Do you agree with competitors to divide markets or customers?",
+          "category": "Market Division",
+          "response": "No",
+          "weight": 3
+        },
+        "bid_rigging": {
+          "question": "Do you coordinate bidding with competitors in tenders?",
+          "category": "Bid Rigging",
+          "response": "Sometimes",
+          "weight": 3
+        },
+        "information_exchange": {
+          "question": "Do you exchange competitively sensitive information with competitors?",
+          "category": "Information Exchange",
+          "response": "No",
+          "weight": 2
+        },
+        "exclusive_dealing": {
+          "question": "Do you require customers to purchase exclusively from you?",
+          "category": "Exclusive Dealing",
+          "response": "No",
+          "weight": 2
+        },
+        "tying_bundling": {
+          "question": "Do you tie the sale of one product to another?",
+          "category": "Tying & Bundling",
+          "response": "No",
+          "weight": 2
+        },
+        "predatory_pricing": {
+          "question": "Do you set prices below cost to eliminate competitors?",
+          "category": "Predatory Pricing",
+          "response": "No",
+          "weight": 2
+        },
+        "refusal_to_deal": {
+          "question": "Do you refuse to deal with certain customers without objective justification?",
+          "category": "Refusal to Deal",
+          "response": "No",
+          "weight": 1
+        },
+        "discriminatory_pricing": {
+          "question": "Do you charge different prices to similar customers without justification?",
+          "category": "Price Discrimination",
+          "response": "No",
+          "weight": 1
+        },
+        "resale_price_maintenance": {
+          "question": "Do you control the resale prices of your products?",
+          "category": "Resale Price Maintenance",
+          "response": "No",
+          "weight": 2
+        }
+      },
+      "assessment_date": "2025-08-07T23:40:51.428861"
+    },
+    "result": {
+      "Total Risk Score": 1.5,
+      "Risk Level": "low",
+      "Risk Description": "Low risk - Continue monitoring",
+      "Assessment Date": "2025-08-07T23:40:51.417910",
+      "Questions Answered": 10
+    },
+    "timestamp": "2025-08-07T23:40:51.428998"
+  }
+]

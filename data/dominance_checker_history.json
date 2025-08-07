@@ -1,0 +1,40 @@
+[
+  {
+    "module": "dominance_checker",
+    "inputs": {
+      "your_market_share": 25.0,
+      "rival_shares": [],
+      "hhi_value": 0.0,
+      "vertical_integration": true,
+      "network_effects": false,
+      "entry_barriers": "Medium"
+    },
+    "result": {
+      "Risk Score": 4,
+      "Risk Level": "Low",
+      "Risk Description": "Low dominance concerns - continue monitoring",
+      "Your Market Share": 25.0,
+      "Assessment Date": "2025-08-07T23:26:30.238341"
+    },
+    "timestamp": "2025-08-07T23:26:30.247536"
+  },
+  {
+    "module": "dominance_checker",
+    "inputs": {
+      "your_market_share": 25.0,
+      "rival_shares": [],
+      "hhi_value": 0.0,
+      "vertical_integration": false,
+      "network_effects": false,
+      "entry_barriers": "Medium"
+    },
+    "result": {
+      "Risk Score": 2,
+      "Risk Level": "Low",
+      "Risk Description": "Low dominance concerns - continue monitoring",
+      "Your Market Share": 25.0,
+      "Assessment Date": "2025-08-07T23:41:01.293146"
+    },
+    "timestamp": "2025-08-07T23:41:01.302135"
+  }
+]

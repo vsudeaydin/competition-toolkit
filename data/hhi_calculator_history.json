@@ -1,0 +1,71 @@
+[
+  {
+    "module": "hhi_calculator",
+    "inputs": {
+      "market_shares": {
+        "Firm 1": 20.0,
+        "Firm 2": 20.0,
+        "Firm 3": 20.0,
+        "Firm 4": 20.0,
+        "Firm 5": 20.0
+      },
+      "normalize_shares": true,
+      "num_firms": 5
+    },
+    "result": {
+      "HHI Value": 2000.0000000000005,
+      "Concentration Level": "Moderate concentration",
+      "Interpretation Band": "moderate",
+      "Number of Firms": 5,
+      "Total Market Share": 100.0,
+      "Calculation Date": "2025-08-07T23:25:04.787490"
+    },
+    "timestamp": "2025-08-07T23:25:04.793860"
+  },
+  {
+    "module": "hhi_calculator",
+    "inputs": {
+      "market_shares": {
+        "Firm 1": 20.0,
+        "Firm 2": 20.0,
+        "Firm 3": 20.0,
+        "Firm 4": 20.0,
+        "Firm 5": 20.0
+      },
+      "normalize_shares": false,
+      "num_firms": 5
+    },
+    "result": {
+      "HHI Value": 2000.0000000000005,
+      "Concentration Level": "Moderate concentration",
+      "Interpretation Band": "moderate",
+      "Number of Firms": 5,
+      "Total Market Share": 100.0,
+      "Calculation Date": "2025-08-07T23:30:41.799475"
+    },
+    "timestamp": "2025-08-07T23:30:41.805509"
+  },
+  {
+    "module": "hhi_calculator",
+    "inputs": {
+      "market_shares": {
+        "Firm 1": 20.0,
+        "Firm 2": 20.0,
+        "Firm 3": 20.0,
+        "Firm 4": 20.0,
+        "Firm 5": 20.0
+      },
+      "normalize_shares": false,
+      "num_firms": 5
+    },
+    "result": {
+      "HHI Value": 2000.0000000000005,
+      "Concentration Level": "Moderate concentration",
+      "Interpretation Band": "moderate",
+      "Number of Firms": 5,
+      "Total Market Share": 100.0,
+      "Calculation Date": "2025-08-07T23:40:29.668063"
+    },
+    "timestamp": "2025-08-07T23:40:29.675274"
+  }
+]
