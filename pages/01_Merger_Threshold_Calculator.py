@@ -3,10 +3,24 @@ T4P Competition Law Toolkit - Merger Threshold Calculator
 Calculate notification thresholds for mergers and acquisitions.
 """
 
-import streamlit as st
 import pandas as pd
 from typing import Dict, List, Any, Optional
 from datetime import datetime
+import streamlit as st
+
+st.set_page_config(page_title="Page Title", layout="wide")
+
+st.markdown("""
+    <style>
+        .reportview-container {
+            margin-top: -2em;
+        }
+        #MainMenu {visibility: hidden;}
+        .stDeployButton {visibility: hidden;}
+        footer {visibility: hidden;}
+        #stDecoration {display:none;}
+    </style>
+""", unsafe_allow_html=True)
 
 from utils.layout import (
     set_page_config, use_theme, header, render_sidebar, 

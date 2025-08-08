@@ -4,10 +4,24 @@ Handles currency conversion with live rates and manual override options.
 """
 
 import requests
-import streamlit as st
 from typing import Optional, Dict, Any
 from datetime import datetime, timedelta
 import time
+import streamlit as st
+
+st.set_page_config(page_title="Page Title", layout="wide")
+
+st.markdown("""
+    <style>
+        .reportview-container {
+            margin-top: -2em;
+        }
+        #MainMenu {visibility: hidden;}
+        .stDeployButton {display:none;}
+        footer {visibility: hidden;}
+        #stDecoration {display:none;}
+    </style>
+""", unsafe_allow_html=True)
 
 from .constants import SUPPORTED_CURRENCIES, DEFAULT_BASE_CURRENCY, DEFAULT_TARGET_CURRENCY, APP_STRINGS
 

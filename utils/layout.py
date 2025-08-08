@@ -3,7 +3,6 @@ T4P Competition Law Toolkit - Layout and UI Utilities
 Handles shared UI components, CSS styling, and consistent page layout.
 """
 
-import streamlit as st
 from typing import Optional, Dict, Any
 from datetime import datetime
 
@@ -11,6 +10,22 @@ from .constants import APP_STRINGS, EXTERNAL_LINKS, PAGE_CONFIG
 from .currency import render_currency_panel
 from .storage import render_history_panel
 from .theme import PALETTES, CURRENT_THEME_KEY
+import streamlit as st
+
+
+st.set_page_config(page_title="Page Title", layout="wide")
+
+st.markdown("""
+    <style>
+        .reportview-container {
+            margin-top: -2em;
+        }
+        #MainMenu {visibility: hidden;}
+        .stDeployButton {display:none;}
+        footer {visibility: hidden;}
+        #stDecoration {display:none;}
+    </style>
+""", unsafe_allow_html=True)
 
 
 def set_page_config(title: str, icon: Optional[str] = None) -> None:

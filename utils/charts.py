@@ -6,8 +6,22 @@ Handles matplotlib chart generation for data visualization.
 import matplotlib.pyplot as plt
 import pandas as pd
 from typing import List, Dict, Any, Optional, Tuple
-import streamlit as st
 import io
+import streamlit as st
+
+st.set_page_config(page_title="Page Title", layout="wide")
+
+st.markdown("""
+    <style>
+        .reportview-container {
+            margin-top: -2em;
+        }
+        #MainMenu {visibility: hidden;}
+        .stDeployButton {display:none;}
+        footer {visibility: hidden;}
+        #stDecoration {display:none;}
+    </style>
+""", unsafe_allow_html=True)
 
 from .constants import HHI_BANDS
 
