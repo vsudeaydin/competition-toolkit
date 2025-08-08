@@ -51,20 +51,20 @@ T4P_DARK = Palette(
 
 T4P_LIGHT = Palette(
     name="T4P Light",
-    bg="#f7fafc",
+    bg="#f8fafc",            # very light
     bg_soft="#eef2f7",
     surface="#ffffff",
     surface_alt="#f3f4f6",
-    text="#0f172a",
-    text_muted="#475569",
+    text="#0b1220",          # darker text for contrast
+    text_muted="#334155",    # readable muted
     primary="#0ea5a6",
     primary_hover="#0d9488",
-    ring="#0891b2",
+    ring="#0ea5a6",
     success="#16a34a",
     warning="#d97706",
     danger="#dc2626",
-    border="rgba(15,23,42,0.12)",
-    shadow="0 6px 20px rgba(2,6,23,0.08)"
+    border="rgba(2,6,23,0.12)",
+    shadow="0 8px 20px rgba(2,6,23,0.08)"
 )
 
 PALETTES = {

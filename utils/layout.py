@@ -189,17 +189,175 @@ def use_theme(palette_name: str = "T4P Dark") -> None:
     st.markdown(css, unsafe_allow_html=True)
 
 
-def sidebar_theme_switcher() -> None:
-    """Render theme switcher in sidebar"""
+def _get_theme_key():
+    return st.session_state.get(CURRENT_THEME_KEY, "T4P Dark")
+
+def use_theme(palette_name: str | None = None):
+    if palette_name is None:
+        palette_name = _get_theme_key()
+    pal = PALETTES.get(palette_name, PALETTES["T4P Dark"])
+    st.session_state[CURRENT_THEME_KEY] = pal.name
+    
+    css = f"""
+    <style>
+      :root {{
+        --bg: {pal.bg};
+        --bg-soft: {pal.bg_soft};
+        --surface: {pal.surface};
+        --surface-alt: {pal.surface_alt};
+        --text: {pal.text};
+        --text-muted: {pal.text_muted};
+        --primary: {pal.primary};
+        --primary-hover: {pal.primary_hover};
+        --ring: {pal.ring};
+        --success: {pal.success};
+        --warning: {pal.warning};
+        --danger: {pal.danger};
+        --border: {pal.border};
+        --shadow: {pal.shadow};
+        --radius: 16px;
+        --gap: 14px;
+        --card-pad: 18px;
+        --maxw: 1240px;
+      }}
+      
+      .main, .stApp {{
+        background: var(--bg);
+        color: var(--text);
+      }}
+      
+      /* Page width */
+      section.block-container {{ 
+        max-width: var(--maxw); 
+        padding-top: 1.2rem; 
+        padding-bottom: 2rem;
+      }}
+      
+      /* Cards */
+      .t4p-card {{
+        background: linear-gradient(180deg, var(--surface), var(--surface-alt));
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: var(--card-pad);
+        margin-bottom: calc(var(--gap) * 1.2);
+      }}
+      
+      /* Buttons */
+      .stButton > button {{
+        background: var(--primary);
+        color: #fff;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        font-weight: 500;
+        transition: all 0.2s ease;
+      }}
+      
+      .stButton > button:hover {{ 
+        background: var(--primary-hover); 
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      }}
+      
+      /* Inputs */
+      .stTextInput > div > div > input,
+      .stNumberInput input, 
+      .stSelectbox div[data-baseweb="select"] {{
+        background: var(--surface);
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }}
+      
+      /* Banners */
+      .t4p-banner {{
+        border-radius: 14px;
+        padding: 14px 16px;
+        border: 1px solid var(--border);
+        margin-bottom: var(--gap);
+      }}
+      
+      .t4p-success {{ 
+        background: rgba(34,197,94,0.12); 
+        border-color: var(--success);
+        color: var(--success);
+      }}
+      
+      .t4p-warning {{ 
+        background: rgba(245,158,11,0.12); 
+        border-color: var(--warning);
+        color: var(--warning);
+      }}
+      
+      .t4p-danger {{ 
+        background: rgba(239,68,68,0.12); 
+        border-color: var(--danger);
+        color: var(--danger);
+      }}
+      
+      /* Links & focus ring */
+      a, .stMarkdown a {{ color: var(--ring); }}
+      *:focus {{ outline: 2px solid var(--ring); outline-offset: 2px; }}
+      
+      /* Tables */
+      .stDataFrame, .stTable {{ 
+        background: var(--surface); 
+        border-radius: 12px; 
+        border: 1px solid var(--border);
+      }}
+      
+      /* Metric cards */
+      .metric-container {{
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+        border-radius: var(--radius);
+        padding: 1rem;
+        color: white;
+        margin: 1rem 0;
+        box-shadow: var(--shadow);
+      }}
+      
+      /* Header styling */
+      .header-container {{
+        background: linear-gradient(135deg, var(--surface) 0%, var(--surface-alt) 100%);
+        border-radius: var(--radius);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        color: var(--text);
+        text-align: center;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+      }}
+      
+      /* Sidebar styling */
+      .css-1d391kg {{
+        background-color: var(--bg-soft);
+      }}
+      
+      /* Responsive design */
+      @media (max-width: 768px) {{
+        section.block-container {{
+          padding: 1rem;
+        }}
+        
+        .header-container {{
+          padding: 1rem;
+        }}
+      }}
+    </style>
+    """
+    st.markdown(css, unsafe_allow_html=True)
+
+def theme_icon_toggle():
+    # one-click toggle; no double click bug
+    curr = _get_theme_key()
+    other = "T4P Light" if curr == "T4P Dark" else "T4P Dark"
     with st.sidebar:
-        st.markdown("### 🎨 Theme")
-        choice = st.selectbox(
-            "Select Theme", 
-            list(PALETTES.keys()), 
-            index=list(PALETTES).index(st.session_state.get(CURRENT_THEME_KEY, "T4P Dark"))
-        )
-        st.session_state[CURRENT_THEME_KEY] = choice
-    use_theme(choice)
+        cols = st.columns([1, 10])
+        with cols[0]:
+            if st.button("🌓", help=f"Switch to {other}", key="t4p_theme_toggle"):
+                st.session_state[CURRENT_THEME_KEY] = other
+        # do not render any selectbox here
+    use_theme(st.session_state.get(CURRENT_THEME_KEY))
 
 
 def inject_css() -> None:
@@ -237,11 +395,6 @@ def render_sidebar(module_name: Optional[str] = None) -> Dict[str, Any]:
     Returns:
         Dictionary with sidebar settings
     """
-    st.sidebar.markdown("## T4P Competition Law Toolkit")
-    
-    # Theme switcher
-    sidebar_theme_switcher()
-    
     # Currency panel
     currency_settings = render_currency_panel()
     

@@ -11,25 +11,42 @@ from datetime import datetime
 from utils.layout import (
     set_page_config, use_theme, header, render_sidebar, 
     render_export_bar, render_success_message, render_warning_message,
-    render_error_message, render_metric_card, render_calculation_summary
+    render_error_message, render_metric_card, render_calculation_summary, theme_icon_toggle
 )
 from utils.constants import MERGER_THRESHOLDS, SUPPORTED_CURRENCIES, APP_STRINGS
-from utils.currency import convert_currency, format_currency
+from utils.currency import convert_currency, format_currency, convert, get_rate
 from utils.storage import save_calculation_result
 from utils.pdf_export import generate_merger_report
+
+
+def party_row(i, role_prefix):
+    key_prefix = f"{role_prefix}_{i}"
+    name = st.text_input(f"{role_prefix.title()} {i+1} Name", key=f"{key_prefix}_name")
+    prev_cur = st.session_state.get(f"{key_prefix}_prev_currency", "TRY")
+    cur = st.selectbox("Currency", ["TRY", "EUR", "USD"], key=f"{key_prefix}_currency")
+    amount_key = f"{key_prefix}_amount"
+
+    # amount input with dynamic label
+    amt = st.number_input(f"Turnover ({cur})", min_value=0.0, step=1000.0, key=amount_key, format="%.2f")
+
+    # if currency changed and there is a value, convert
+    if prev_cur != cur and st.session_state.get(amount_key, 0):
+        rate = get_rate(prev_cur, cur)  # wrap existing get_rate(base, target)
+        new_val = convert(st.session_state[amount_key], prev_cur, cur, override_rate=rate)
+        st.session_state[amount_key] = round(float(new_val or 0), 2)
+
+    st.session_state[f"{key_prefix}_prev_currency"] = cur
+    return {"name": name, "currency": cur, "amount": st.session_state[amount_key]}
 
 
 def main():
     """Merger Threshold Calculator main function"""
     
     # Set page configuration
-    set_page_config(
-        title="Merger Threshold Calculator",
-        icon="📊"
-    )
+    st.set_page_config(page_title="T4P – Competition Law Toolkit", page_icon="⚖️", layout="wide")
     
-    # Apply theme
-    use_theme("T4P Dark")
+    # Apply theme and add theme toggle
+    theme_icon_toggle()
     
     # Render sidebar
     currency_settings = render_sidebar("merger_calculator")
@@ -54,6 +71,9 @@ def main():
             help="Year of the transaction for reporting purposes"
         )
         
+        if year < 2020:
+            st.warning("Value must be ≥ 2020.", icon="⚠️")
+        
         country = st.selectbox(
             "Country",
             ["Türkiye", "Other"],
@@ -66,6 +86,9 @@ def main():
             "Show Advanced Options",
             help="Display additional calculation details and assumptions"
         )
+        
+        if show_advanced:
+            st.info("Advanced options will appear here in a future update (e.g., rate date selection, country presets).", icon="🛠️")
     
     # Parties input
     st.markdown("### 🏢 Parties and Turnovers")
@@ -77,35 +100,9 @@ def main():
     num_buyers = st.number_input("Number of Buyer Parties", min_value=1, max_value=10, value=1)
     
     for i in range(num_buyers):
-        with st.expander(f"Buyer {i+1}", expanded=True):
-            col1, col2, col3 = st.columns(3)
-            
-            with col1:
-                name = st.text_input(f"Buyer {i+1} Name", key=f"buyer_name_{i}")
-            
-            with col2:
-                turnover = st.number_input(
-                    f"Turnover ({currency_settings['base_currency']})",
-                    min_value=0.0,
-                    value=0.0,
-                    step=1000000.0,
-                    key=f"buyer_turnover_{i}"
-                )
-            
-            with col3:
-                currency = st.selectbox(
-                    "Currency",
-                    SUPPORTED_CURRENCIES,
-                    index=SUPPORTED_CURRENCIES.index(currency_settings['base_currency']),
-                    key=f"buyer_currency_{i}"
-                )
-            
-            if name and turnover > 0:
-                buyer_parties.append({
-                    "name": name,
-                    "turnover": turnover,
-                    "currency": currency
-                })
+        buyer_data = party_row(i, "buyer")
+        if buyer_data["name"] and buyer_data["amount"] > 0:
+            buyer_parties.append(buyer_data)
     
     # Target parties
     st.markdown("**Target(s) - Acquired Parties**")
@@ -114,35 +111,9 @@ def main():
     num_targets = st.number_input("Number of Target Parties", min_value=1, max_value=10, value=1)
     
     for i in range(num_targets):
-        with st.expander(f"Target {i+1}", expanded=True):
-            col1, col2, col3 = st.columns(3)
-            
-            with col1:
-                name = st.text_input(f"Target {i+1} Name", key=f"target_name_{i}")
-            
-            with col2:
-                turnover = st.number_input(
-                    f"Turnover ({currency_settings['base_currency']})",
-                    min_value=0.0,
-                    value=0.0,
-                    step=1000000.0,
-                    key=f"target_turnover_{i}"
-                )
-            
-            with col3:
-                currency = st.selectbox(
-                    "Currency",
-                    SUPPORTED_CURRENCIES,
-                    index=SUPPORTED_CURRENCIES.index(currency_settings['base_currency']),
-                    key=f"target_currency_{i}"
-                )
-            
-            if name and turnover > 0:
-                target_parties.append({
-                    "name": name,
-                    "turnover": turnover,
-                    "currency": currency
-                })
+        target_data = party_row(i, "target")
+        if target_data["name"] and target_data["amount"] > 0:
+            target_parties.append(target_data)
     
     # Calculate button
     if st.button("🚀 Calculate Thresholds", type="primary"):
@@ -183,7 +154,7 @@ def calculate_merger_thresholds(
         # Convert buyer turnovers
         for party in buyer_parties:
             converted_amount = convert_currency(
-                party["turnover"],
+                party["amount"],
                 party["currency"],
                 base_currency,
                 currency_settings.get("manual_rate")
@@ -191,8 +162,8 @@ def calculate_merger_thresholds(
             
             if converted_amount is not None:
                 converted_buyers.append({
-                    "name": party["name"],
-                    "original_turnover": party["turnover"],
+                    "name": party.get("name") or f"Buyer {len(converted_buyers) + 1}",
+                    "original_turnover": party["amount"],
                     "original_currency": party["currency"],
                     "converted_turnover": converted_amount,
                     "converted_currency": base_currency
@@ -201,7 +172,7 @@ def calculate_merger_thresholds(
         # Convert target turnovers
         for party in target_parties:
             converted_amount = convert_currency(
-                party["turnover"],
+                party["amount"],
                 party["currency"],
                 base_currency,
                 currency_settings.get("manual_rate")
@@ -209,8 +180,8 @@ def calculate_merger_thresholds(
             
             if converted_amount is not None:
                 converted_targets.append({
-                    "name": party["name"],
-                    "original_turnover": party["turnover"],
+                    "name": party.get("name") or f"Target {len(converted_targets) + 1}",
+                    "original_turnover": party["amount"],
                     "original_currency": party["currency"],
                     "converted_turnover": converted_amount,
                     "converted_currency": base_currency
@@ -319,6 +290,7 @@ def calculate_merger_thresholds(
             """)
         
         # Export functionality
+        show_pdf_export = True
         export_data = {
             "summary": {
                 "Transaction Year": year,
@@ -353,14 +325,6 @@ def calculate_merger_thresholds(
         # Create CSV data
         csv_data = pd.DataFrame(all_parties).to_csv(index=False) if all_parties else None
         
-        # Render export buttons
-        render_export_bar(
-            pdf_data=pdf_data,
-            csv_data=csv_data,
-            pdf_filename=f"merger_threshold_report_{year}.pdf",
-            csv_filename=f"merger_parties_{year}.csv"
-        )
-        
         # Save to history
         save_calculation_result(
             "merger_calculator",
@@ -374,7 +338,17 @@ def calculate_merger_thresholds(
         )
         
     except Exception as e:
-        render_error_message(f"Error during calculation: {str(e)}")
+        show_pdf_export = False
+        st.error(f"An unexpected error occurred during calculation. Please check your inputs and try again.\n\nDetails: {type(e).__name__}", icon="❌")
+    
+    # Render export buttons only when calculation succeeds
+    if show_pdf_export:
+        render_export_bar(
+            pdf_data=pdf_data,
+            csv_data=csv_data,
+            pdf_filename=f"merger_threshold_report_{year}.pdf",
+            csv_filename=f"merger_parties_{year}.csv"
+        )
 
 
 if __name__ == "__main__":

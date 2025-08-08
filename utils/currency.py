@@ -67,6 +67,36 @@ def convert_currency(amount: float, base: str, target: str, override_rate: Optio
     return None
 
 
+def convert(amount: float, base: str, target: str, override_rate: Optional[float] = None) -> Optional[float]:
+    """
+    Alias for convert_currency for backward compatibility
+    
+    Args:
+        amount: Amount to convert
+        base: Base currency code
+        target: Target currency code
+        override_rate: Manual exchange rate override
+        
+    Returns:
+        Converted amount, or None if conversion fails
+    """
+    return convert_currency(amount, base, target, override_rate)
+
+
+def get_rate(base: str, target: str) -> Optional[float]:
+    """
+    Get exchange rate between two currencies
+    
+    Args:
+        base: Base currency code
+        target: Target currency code
+        
+    Returns:
+        Exchange rate as float, or None if API fails
+    """
+    return get_exchange_rate(base, target)
+
+
 def format_currency(amount: float, currency: str) -> str:
     """
     Format currency amount with proper symbol and formatting

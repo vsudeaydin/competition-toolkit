@@ -190,7 +190,7 @@ EXTERNAL_LINKS = {
     "competition_authority": "https://www.rekabet.gov.tr/",  # UPDATE with actual URL
     "legislation": "https://www.mevzuat.gov.tr/",  # UPDATE with actual URL
     "guidelines": "https://www.rekabet.gov.tr/kilavuzlar",  # UPDATE with actual URL
-    "contact": "mailto:info@t4p.com"  # UPDATE with actual contact
+    "contact": "mailto:vsudeaydin01@gmail.com"  # UPDATE with actual contact
 }
 
 # =============================================================================

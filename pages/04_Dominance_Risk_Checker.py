@@ -11,7 +11,7 @@ from datetime import datetime
 from utils.layout import (
     set_page_config, use_theme, header, render_sidebar, 
     render_export_bar, render_success_message, render_warning_message,
-    render_error_message, render_metric_card, render_calculation_summary
+    render_error_message, render_metric_card, render_calculation_summary, theme_icon_toggle
 )
 from utils.constants import DOMINANCE_RISK_FACTORS, APP_STRINGS
 from utils.storage import save_calculation_result
@@ -22,13 +22,10 @@ def main():
     """Dominance Risk Checker main function"""
     
     # Set page configuration
-    set_page_config(
-        title="Dominance Risk Checker",
-        icon="⚠️"
-    )
+    st.set_page_config(page_title="T4P – Competition Law Toolkit", page_icon="⚖️", layout="wide")
     
-    # Apply theme
-    use_theme("T4P Dark")
+    # Apply theme and add theme toggle
+    theme_icon_toggle()
     
     # Render sidebar
     currency_settings = render_sidebar("dominance_checker")

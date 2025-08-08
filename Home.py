@@ -8,7 +8,7 @@ from datetime import datetime
 
 from utils.layout import (
     set_page_config, use_theme, header, render_sidebar, 
-    render_page_navigation, render_footer, render_info_card
+    render_page_navigation, render_footer, render_info_card, theme_icon_toggle
 )
 from utils.constants import APP_STRINGS, PAGE_CONFIG
 
@@ -17,15 +17,15 @@ def main():
     """Main application entry point"""
     
     # Set page configuration
-    set_page_config(
-        title=APP_STRINGS["app_title"],
-        icon="⚖️"
-    )
+    st.set_page_config(page_title="T4P – Competition Law Toolkit", page_icon="⚖️", layout="wide")
     
-    # Apply theme
-    use_theme("T4P Dark")
+    # Apply theme and add theme toggle
+    theme_icon_toggle()
     
-    # Render sidebar
+    # Render sidebar with custom title
+    with st.sidebar:
+        st.markdown("### ⚖️ Competition Law Toolkit")
+    
     currency_settings = render_sidebar()
     
     # Main content

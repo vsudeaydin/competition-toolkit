@@ -8,7 +8,7 @@ from datetime import datetime
 
 from utils.layout import (
     set_page_config, use_theme, header, render_sidebar, 
-    render_info_card, render_footer
+    render_info_card, render_footer, theme_icon_toggle
 )
 from utils.constants import APP_STRINGS, EXTERNAL_LINKS
 
@@ -17,13 +17,10 @@ def main():
     """Help and About main function"""
     
     # Set page configuration
-    set_page_config(
-        title="Help & About",
-        icon="❓"
-    )
+    st.set_page_config(page_title="T4P – Competition Law Toolkit", page_icon="⚖️", layout="wide")
     
-    # Apply theme
-    use_theme("T4P Dark")
+    # Apply theme and add theme toggle
+    theme_icon_toggle()
     
     # Render sidebar
     currency_settings = render_sidebar()
@@ -35,8 +32,8 @@ def main():
     )
     
     # Navigation tabs
-    tab1, tab2, tab3, tab4, tab5 = st.tabs([
-        "📖 How to Use", "📚 Glossary", "🔗 Resources", "📊 Data & Privacy", "ℹ️ About"
+    tab1, tab2, tab3 = st.tabs([
+        "📖 How to Use", "📚 Glossary", "🔗 Resources"
     ])
     
     with tab1:
@@ -47,12 +44,6 @@ def main():
     
     with tab3:
         render_resources()
-    
-    with tab4:
-        render_data_privacy()
-    
-    with tab5:
-        render_about()
 
 
 def render_how_to_use():
@@ -245,158 +236,37 @@ def render_resources():
     - [American Bar Association - Antitrust](https://www.americanbar.org/groups/antitrust_law/) - Professional development
     - [European Competition Lawyers Association](https://www.ecla.org/) - European competition law community
     
-    ### 📖 Publications and Reports
-    
-    **Annual Reports:**
-    - Competition Authority Annual Reports
-    - EU Competition Policy Reports
-    - OECD Competition Policy Reviews
-    
-    **Guidelines and Manuals:**
-    - Merger Control Guidelines
-    - Market Definition Guidelines
-    - Abuse of Dominance Guidelines
+    ### 📚 Publications and Reports
+
+    **Annual Reports**
+    - [Competition Authority Annual Reports](https://www.rekabet.gov.tr/)
+    - [EU Competition Policy Reports](https://competition-policy.ec.europa.eu/)
+    - [OECD Competition Policy Reviews](https://www.oecd.org/competition/)
+
+    **Guidelines and Manuals**
+    - [Merger Control Guidelines](https://example.org/merger-guidelines)
+    - [Market Definition Guidelines](https://example.org/market-definition)
+    - [Abuse of Dominance Guidelines](https://example.org/dominance-guidelines)
     """)
-
-
-def render_data_privacy():
-    """Render data and privacy information"""
     
-    st.markdown("## 📊 Data & Privacy")
+    # Contact information
+    st.markdown("""
+    ### 📬 Contact & Support
+    For questions, feedback, or collaboration inquiries, please contact **Vildan Sude Aydın** at **vsudeaydin01@gmail.com**.
+
+    _This toolkit concept was initiated by **Vildan Sude AYDIN** as part of a competition-law focused legal technology project._
+    """)
     
     st.markdown("""
-    ### 🔒 Data Handling
-    
-    **Local Processing Only:**
-    - All calculations are performed locally in your browser
-    - No personal data is transmitted to external servers
-    - Your input data remains on your device
-    
-    **Data Storage:**
-    - Calculation history is stored locally in JSON files
-    - No cloud storage or external databases
-    - You control all your data
-    
-    **Export Options:**
-    - PDF reports are generated locally
-    - CSV exports contain only your input data
-    - No data is shared with third parties
-    
-    ### 🛡️ Privacy Protection
-    
-    **No Tracking:**
-    - No cookies or tracking mechanisms
-    - No analytics or user behavior monitoring
-    - No personal information collection
-    
-    **Transparency:**
-    - Open source code available for review
-    - Clear data handling practices
-    - No hidden data processing
-    
-    ### 📋 Data Retention
-    
-    **Local Storage:**
-    - Calculation history stored in `data/` directory
-    - Files can be deleted at any time
-    - No automatic data retention policies
-    
-    **Export Files:**
-    - Downloaded files are stored on your device
-    - You control file retention and deletion
-    - No cloud backup of exported files
+    ### 🔗 Useful Links
+    - [Turkish Competition Authority](https://www.rekabet.gov.tr/)
+    - [EU Competition Policy](https://competition-policy.ec.europa.eu/)
+    - [OECD Competition](https://www.oecd.org/competition/)
+    - Contact: **vsudeaydin01@gmail.com**
     """)
 
 
-def render_about():
-    """Render about information"""
-    
-    st.markdown("## ℹ️ About T4P Competition Law Toolkit")
-    
-    # Version and build info
-    st.markdown("### 📋 Version Information")
-    
-    version_info = {
-        "Version": "1.0.0",
-        "Build Date": datetime.now().strftime("%Y-%m-%d"),
-        "Python Version": "3.11+",
-        "Streamlit Version": "1.38+",
-        "License": "Educational Use Only"
-    }
-    
-    for key, value in version_info.items():
-        col1, col2 = st.columns([1, 2])
-        with col1:
-            st.markdown(f"**{key}:**")
-        with col2:
-            st.markdown(value)
-    
-    # Features
-    st.markdown("### ✨ Features")
-    
-    features = [
-        "📊 Merger Threshold Calculator with currency conversion",
-        "📈 HHI Calculator with interactive visualizations",
-        "✅ Comprehensive Compliance Checklist",
-        "⚠️ Dominance Risk Assessment Tool",
-        "📤 PDF and CSV export functionality",
-        "💱 Live currency exchange rates",
-        "📊 Calculation history tracking",
-        "🎨 Modern, responsive UI design"
-    ]
-    
-    for feature in features:
-        st.markdown(f"- {feature}")
-    
-    # Technology stack
-    st.markdown("### 🛠️ Technology Stack")
-    
-    tech_stack = {
-        "Frontend": "Streamlit (Python web framework)",
-        "Charts": "Matplotlib for data visualization",
-        "PDF Generation": "ReportLab for professional reports",
-        "Currency API": "open.er-api.com for exchange rates",
-        "Data Storage": "Local JSON files",
-        "Styling": "Custom CSS with modern design"
-    }
-    
-    for tech, description in tech_stack.items():
-        col1, col2 = st.columns([1, 2])
-        with col1:
-            st.markdown(f"**{tech}:**")
-        with col2:
-            st.markdown(description)
-    
-    # Changelog
-    st.markdown("### 📝 Changelog")
-    
-    st.markdown("""
-    **v1.0.0 (Current)**
-    - Initial release of T4P Competition Law Toolkit
-    - Four main calculation tools implemented
-    - PDF export functionality
-    - Currency conversion with live rates
-    - Local data storage and history tracking
-    - Modern, responsive UI design
-    - Comprehensive help and documentation
-    """)
-    
-    # Contact and support
-    st.markdown("### 📞 Contact & Support")
-    
-    st.markdown("""
-    **For questions or issues:**
-    - Review this help section for guidance
-    - Check the tool-specific instructions
-    - Consult the glossary for terminology
-    - Refer to external resources for detailed information
-    
-    **Important Disclaimer:**
-    This tool is for educational purposes only. Always consult qualified legal counsel for actual competition law matters.
-    """)
-    
-    # Footer
-    render_footer()
+
 
 
 if __name__ == "__main__":
