@@ -3,6 +3,7 @@ T4P Competition Law Toolkit - Help and About
 User guide, glossary, and application information.
 """
 
+import streamlit as st
 from datetime import datetime
 import streamlit as st
 
@@ -258,10 +259,9 @@ def render_resources():
     - [OECD Competition Policy Reviews](https://www.oecd.org/competition/)
 
     **Guidelines and Manuals**
-    - [Merger Control Guidelines](https://example.org/merger-guidelines)
-    - [Market Definition Guidelines](https://example.org/market-definition)
-    - [Abuse of Dominance Guidelines](https://example.org/dominance-guidelines)
+    - [EU Merger Regulation & Guidance](https://competition-policy.ec.europa.eu/mergers_en)
     """)
+    
     
     # Contact information
     st.markdown("""
